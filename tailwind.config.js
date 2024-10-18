@@ -46,6 +46,9 @@ export default {
         "surface-800": "var(--surface-800)",
         "surface-900": "var(--surface-900)",
         "surface-950": "var(--surface-950)",
+
+        "text": "#333333",
+        "title": "#111111"
       },
     },
   },

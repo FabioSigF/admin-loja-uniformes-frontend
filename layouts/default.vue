@@ -4,7 +4,9 @@
       <!-- Header -->
       <section class="pt-3 pb-6 flex flex-col gap-4">
         <div class="flex items-center justify-between">
-          Logo
+          <a href="/">
+            <img src="../assets/images/logo.png" alt="Painel Admin Loja Uniformes">
+          </a>
         </div>
       </section>
 
@@ -25,6 +27,31 @@
 
     <div class="ml-[300px]">
       <div class="p-6 w-full">
+        <div class="flex items-center gap-8 mb-8">
+          <InputGroup>
+            <InputGroupAddon>
+              <Icon name="mynaui:search" size="24px" />
+            </InputGroupAddon>
+            <InputText v-model="textSearch" placeholder="Buscar..." />
+          </InputGroup>
+          <div class="flex items-center gap-4">
+            <Button class="!rounded-full">
+              <template #icon>
+                <Icon name="mynaui:bell" size="24px" />
+              </template>
+            </Button>
+            <Button class="!rounded-full">
+              <template #icon>
+                <Icon name="mynaui:config" size="24px" />
+              </template>
+            </Button>
+            <Button class="!rounded-full">
+              <template #icon>
+                <Icon name="mynaui:user" size="24px" />
+              </template>
+            </Button>
+          </div>
+        </div>
         <slot></slot>
       </div>
     </div>
@@ -42,6 +69,7 @@ import Menu from 'primevue/menu';
 //States
 const { routeList } = storeToRefs(useRoutesStore());
 
+const textSearch = ref('');
 </script>
 
 <style lang="css" scoped></style>
