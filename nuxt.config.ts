@@ -39,7 +39,12 @@ export const MyPreset = definePreset(Aura, {
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  modules: ["@nuxt/icon", "@pinia/nuxt", "@primevue/nuxt-module"],
+  modules: [
+    "@nuxt/icon",
+    "@pinia/nuxt",
+    "@primevue/nuxt-module",
+    "@nuxtjs/tailwindcss",
+  ],
   devtools: { enabled: true },
 
   css: ["assets/css/main.css", "assets/css/primevue-custom.css"],
