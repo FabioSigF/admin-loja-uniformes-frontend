@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap');
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--surface-700);
+  background-color: #F8F8FA;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+label {
+  display: block;
+}
+
+:root {
+  --primary-50: #eceeff;
+  --primary-100: #c9d0ff;
+  --primary-200: #a5b2ff;
+  --primary-300: #8094ff;
+  --primary-400: #667aff;
+  --primary-500: #546dfe; /* Cor principal */
+  --primary-600: #4b62e6;
+  --primary-700: #404fc2;
+  --primary-800: #353e9e;
+  --primary-900: #2a307c;
+  --primary-950: #141842;
+
+  --surface-0: #ffffff;
+  --surface-50: #fafafa;
+  --surface-100: #f4f4f5;
+  --surface-200: #e4e4e7;
+  --surface-300: #d4d4d8;
+  --surface-400: #a1a1aa;
+  --surface-500: #71717a;
+  --surface-600: #52525b;
+  --surface-700: #3f3f46;
+  --surface-800: #27272a;
+  --surface-900: #18181b;
+  --surface-950: #09090b;
+
+  --primary: var(--primary-500);
+  --primary-inverse: var(--surface-0);
+  --primary-hover: var(--primary-600);
+  --primary-active-color: var(--primary-600);
+
+  --primary-highlight-opacity: 0.1;
+  --primary-highlight-inverse: var(--primary-700);
+  --primary-highlight-hover-opacity: 0.2;
+}
+
+.dark {
+  --primary: var(--primary-400);
+  --primary-inverse: var(--surface-900);
+  --primary-hover: var(--primary-300);
+  --primary-active-color: var(--primary-300);
+
+  --primary-highlight-opacity: 0.2;
+  --primary-highlight-inverse: var(--surface-0);
+  --primary-highlight-hover-opacity: 0.3;
+}
+
+.customized-primary {
+  &:not(.dark) {
+    --primary: var(--primary-950);
+    --primary-inverse: var(--surface-0);
+    --primary-hover: var(--primary-800);
+    --primary-active-color: var(--primary-900);
+
+    --primary-highlight-opacity: 1;
+    --primary-highlight-inverse: var(--surface-0);
+    --primary-highlight-hover-opacity: 0.8;
+  }
+  &.dark {
+    --primary: var(--primary-50);
+    --primary-inverse: var(--surface-950);
+    --primary-hover: var(--primary-100);
+    --primary-active-color: var(--primary-100);
+
+    --primary-highlight-opacity: 0.1;
+    --primary-highlight-inverse: var(--surface-0);
+    --primary-highlight-hover-opacity: 0.2;
+  }
+}

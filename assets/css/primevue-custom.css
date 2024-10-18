@@ -1,0 +1,58 @@
+:root {
+  /* Menu */
+  --p-menu-item-focus-background: var(--primary-50) !important;
+  --p-menu-item-focus-color: var(--primary) !important;
+  /* Button Link */
+  --p-button-link-color: var(--surface-600) !important;
+}
+
+/* Menu */
+.p-menu {
+  border: none !important;
+}
+
+.p-menu-submenu-label {
+  padding: .75rem 0 !important;
+}
+
+.p-menu-item-content > a {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+/* Autocomplete */
+.p-autocomplete {
+  display: block;
+  width: 100%;
+}
+.p-autocomplete-input {
+  width: 100% !important;
+  display: block !important;
+}
+
+/* Button */
+.p-button {
+  justify-content: start !important;
+}
+
+/* Modal */
+.p-dialog-close-button {
+  justify-content: center !important;
+}
+
+/* OrderList */
+.p-orderlist-controls .p-button {
+  justify-content: center !important;
+}
+
+/* DatePicker - TimePicker */
+.p-datepicker-hour-picker .p-button {
+  justify-content: center !important;
+}
+.p-datepicker-minute-picker .p-button {
+  justify-content: center !important;
+}
+
