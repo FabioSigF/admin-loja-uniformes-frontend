@@ -31,7 +31,7 @@ export const useRoutesStore = defineStore("menu", () => {
         {
           label: "Comércio",
           icon: "mynaui:store",
-          url: "apps/business",
+          url: "/apps/business",
         },
       ],
     },
@@ -39,19 +39,14 @@ export const useRoutesStore = defineStore("menu", () => {
       label: "Analytics",
       items: [
         {
-          label: "Vendas",
-          icon: "mynaui:package",
-          url: "analytics/sales",
-        },
-        {
           label: "Empresas",
           icon: "mynaui:building-one",
-          url: "analytics/companies",
+          url: "/analytics/companies",
         },
         {
           label: "Faturamento",
           icon: "mynaui:dollar-circle",
-          url: "analytics/billing",
+          url: "/analytics/billing",
         },
       ],
     },

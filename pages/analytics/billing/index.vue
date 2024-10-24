@@ -3,7 +3,7 @@
     <Container>
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="mb-4">Comércio</h2>
+          <h2 class="mb-4">Faturamento</h2>
           <Breadcrumb :model="items" />
         </div>
         <Button label="Criar nova empresa" />
@@ -30,7 +30,6 @@ import { type SaleReceive } from "~/interfaces/receive/Sale";
 
 
 const items = ref([
-  { label: 'Inicio' },
   { label: 'Analítico' },
   { label: 'Faturamento' },
 ]);
