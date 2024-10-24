@@ -29,16 +29,16 @@
               <div class="col-span-2">
                 <form>
                   <div class="mb-4">
-                    <label for="username" class="mb-2">Nome</label>
-                    <InputText id="username" v-model="formData.name" aria-describedby="username-help" fluid />
+                    <label class="mb-2">Nome</label>
+                    <InputText v-model="formData.name" aria-describedby="username-help" fluid />
                   </div>
                   <div class="mb-4">
-                    <label for="username" class="mb-2">Email</label>
-                    <InputText id="username" v-model="formData.cnpj" fluid />
+                    <label class="mb-2">Email</label>
+                    <InputText v-model="formData.cnpj" fluid />
                   </div>
                   <div class="mb-4">
-                    <label for="username" class="mb-2">Categoria</label>
-                    <InputText id="username" v-model="formData.category" fluid />
+                    <label class="mb-2">Categoria</label>
+                    <InputText v-model="formData.category" fluid />
                   </div>
                   <div class="flex-auto">
                     <label for="phone" class="font-bold block mb-2">Telefone de contato</label>
