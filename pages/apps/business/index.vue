@@ -3,10 +3,10 @@
     <Container>
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="mb-4">Comércio</h2>
+          <h2 class="mb-4">Cadastrar Empresa</h2>
           <Breadcrumb :model="items" />
         </div>
-        <Button label="Criar nova empresa" />
+        <Button label="Criar nova empresa" @click="handleOnCreateNewCompany" />
       </div>
     </Container>
     <div class="grid grid-cols-4 gap-8">
@@ -171,6 +171,9 @@ const companyItems = ref < CompanyReceive[] > (
 ]
 )
 
+const handleOnCreateNewCompany = () => {
+  navigateTo('/apps/business/new-company');
+}
 
 
 const textSearch = ref('');

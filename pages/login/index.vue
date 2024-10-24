@@ -7,11 +7,11 @@
     <form>
       <div class="mb-4">
         <label for="username" class="mb-2">Email</label>
-        <InputText id="username" v-model="email" aria-describedby="username-help" fluid />
+        <InputText id="username" v-model="email" fluid type="email" />
       </div>
       <div class="mb-8">
         <label for="username" class="mb-2">Senha</label>
-        <InputText id="username" v-model="senha" aria-describedby="username-help" fluid/>
+        <InputText id="username" v-model="senha" fluid type="password"/>
       </div>
       <Button label="Entrar" class="mb-8" fluid />
       <div class="text-center">
