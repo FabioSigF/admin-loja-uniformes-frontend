@@ -39,6 +39,11 @@ h4,
 h5,
 h6 {
   color: var(--surface-900);
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 1.5rem;
 }
 
 :root {
@@ -109,4 +114,13 @@ h6 {
     --primary-highlight-inverse: var(--surface-0);
     --primary-highlight-hover-opacity: 0.2;
   }
+}
+
+.primary_linear {
+  background: rgb(84, 109, 254);
+  background: linear-gradient(
+    185deg,
+    rgba(84, 109, 254, 1) 0%,
+    rgba(215, 124, 247, 1) 100%
+  );
 }

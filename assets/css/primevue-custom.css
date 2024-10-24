@@ -56,3 +56,8 @@
   justify-content: center !important;
 }
 
+/* Breadcrumb */
+.p-breadcrumb {
+  padding: 0 !important;
+}
+

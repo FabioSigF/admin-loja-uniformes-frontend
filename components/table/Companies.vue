@@ -1,16 +1,9 @@
 <template>
   <div>
-    <div class="text-xl font-semibold mb-8">Últimas vendas</div>
-    <DataTable :value="props.sales" tableStyle="min-width: 50rem">
-      <Column field="id" header="ID PEDIDO"></Column>
-      <Column header="EMPRESA">
-        <template #body="slotProps">
-          {{ slotProps.data.company ? slotProps.data.company.name : 'Empresa não definida' }}
-        </template>
-      </Column>
-      <Column field="companyId" header="RESUMO"></Column>
+    <div class="text-xl font-semibold mb-8">Empresas</div>
+    <DataTable :value="props.companies" tableStyle="min-width: 50rem">
+      <Column field="name" header="EMPRESA"></Column>
       <Column field="category" header="STATUS"></Column>
-      <Column field="quantity" header="PREÇO"></Column>
       <Column field="actions" header="AÇÔES" class="w-[442px]">
         <template #body="slotProps">
           <div class="flex gap-2 items-center">
@@ -38,12 +31,11 @@
 </template>
 
 <script setup lang="ts">
-
-import { type SaleReceive } from "@/interfaces/receive/Sale";
+import type { CompanyReceive } from "~/interfaces/receive/Company";
 
 const props = defineProps({
-  sales: {
-    type: Array as PropType<SaleReceive[]>,
+  companies: {
+    type: Array as PropType<CompanyReceive[]>,
     required: true
   }
 })
