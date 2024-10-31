@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-xl font-semibold mb-8">Últimas vendas</div>
+    <h3 class="text-xl font-semibold mb-8">Últimas vendas</h3>
     <DataTable :value="props.sales" tableStyle="min-width: 50rem">
       <Column header="EMPRESA">
         <template #body="slotProps">
@@ -73,7 +73,6 @@ const handleOnClickRemoveProduct = (id: number) => {
 }
 
 const formatSummary = (saleItems: any[]) => {
-  console.log(saleItems)
   return saleItems
     .map(item => `${item.amount}x ${item.product.productName}`) // Formata a string
     .join(', '); // Junta os itens com vírgula

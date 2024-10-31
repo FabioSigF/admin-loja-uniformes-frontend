@@ -13,11 +13,22 @@
       </div>
     </Container>
 
-    <div class="grid grid-cols-4 gap-8">
+    <section class="grid grid-cols-4 gap-8">
       <CardInfo v-for="infoCard in infoCards" :key="infoCard.title" :title="infoCard.title"
         :image-name="infoCard.imageName" :info="infoCard.info" :info-complement="infoCard.infoComplement"
         :link="infoCard.link" :link-text="infoCard.linkText" />
-    </div>
+    </section>
+    
+    <section class="grid grid-cols-10 gap-8">
+      <Container class="col-span-6">
+        <h3 class="text-xl font-semibold mb-8">Vendas por período</h3>
+        <ChartSalesBar :sales="saleItems"/>
+      </Container>
+      <Container class="col-span-4">
+        <h3 class="text-xl font-semibold mb-8">Empresas que mais faturam</h3>
+        <ChartSalesDoughnut :sales="saleItems" />
+      </Container>
+    </section>
 
     <Container>
       <TableLastSells :sales="saleItems" />
@@ -89,7 +100,6 @@ const { execute, data, error } = useFetch<SaleReceive[]>(`${config.public.API_UR
   },
   lazy: true
 });
-
 // Busca vendas quando montar a página
 onMounted(async () => {
   await execute();
@@ -97,9 +107,10 @@ onMounted(async () => {
     console.error('Erro ao buscar vendas:', error.value);
   } else {
     saleItems.value = data.value || [];
-    console.log('Vendas:', saleItems.value);
   }
 });
+
+
 
 const handleOnClickCreateSell = () => {
   console.log('Nova venda');
