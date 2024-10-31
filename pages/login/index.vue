@@ -11,14 +11,13 @@
       </div>
       <div class="mb-8">
         <label for="username" class="mb-2">Senha</label>
-        <InputText id="username" v-model="senha" fluid type="password"/>
+        <InputText id="username" v-model="senha" fluid type="password" />
       </div>
-      <Button label="Entrar" class="mb-8" fluid />
+      <Button label="Entrar" class="mb-8" fluid @click="handleOnClickLogin" />
       <div class="text-center">
         <span class="text-gray-400">Não tem uma conta? <a href="#!" class="text-primary">Cadastre-se</a></span>
       </div>
     </form>
-
   </div>
 </template>
 
@@ -27,9 +26,35 @@
 const email = ref('')
 const senha = ref('')
 
+const router = useRouter();
+const config = useRuntimeConfig();
+
+const handleOnClickLogin = async () => {
+  const { data, error } = await useFetch(`${config.public.API_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      login: email.value,
+      password: senha.value
+    })
+  })
+
+  if (error.value) {
+    console.error('Erro ao fazer login:', error.value);
+  } else {
+    // Armazena o token no local storage
+    sessionStorage.setItem('token', (data.value as { token: string }).token);
+
+    router.push('/');
+  }
+}
+
 definePageMeta({
-  layout: 'authentication'
+  layout: "authentication"
 })
+
 </script>
 
 <style scoped></style>

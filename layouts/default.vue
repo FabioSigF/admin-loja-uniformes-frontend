@@ -52,7 +52,7 @@
             </Button>
           </div>
         </div>
-        <slot></slot>
+        <NuxtPage></NuxtPage>
       </div>
     </div>
   </main>
@@ -70,6 +70,7 @@ import Menu from 'primevue/menu';
 const { routeList } = storeToRefs(useRoutesStore());
 
 const textSearch = ref('');
+
 </script>
 
 <style lang="css" scoped></style>

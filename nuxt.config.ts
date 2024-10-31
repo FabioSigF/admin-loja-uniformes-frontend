@@ -45,6 +45,11 @@ export default defineNuxtConfig({
     "@primevue/nuxt-module",
     "@nuxtjs/tailwindcss",
   ],
+  runtimeConfig: {
+    public: {
+      API_URL: process.env.API_URL,
+    }
+  },
   devtools: { enabled: true },
 
   css: ["assets/css/main.css", "assets/css/primevue-custom.css"],
