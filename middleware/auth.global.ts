@@ -1,9 +1,13 @@
 import { defineNuxtRouteMiddleware, navigateTo } from "nuxt/app";
+import { useConfigStore } from "~/stores/useConfigStore";
 
 export default defineNuxtRouteMiddleware((to, from) => {
   if (import.meta.env.SSR === false) {
+    const { setToken } = useConfigStore();
+
     const token = sessionStorage.getItem("token");
-    console.log("Acessou o middleware de autenticação");
+    if (token) setToken(token);
+    
     // Permitir acesso às páginas de login e registro
     if (!token && to.path !== "/login" && to.path !== "/register") {
       return navigateTo("/login"); // Redireciona para a página de login se não estiver autenticado

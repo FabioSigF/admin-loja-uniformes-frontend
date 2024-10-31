@@ -12,7 +12,7 @@ export const useModalStore = defineStore("modal", () => {
   // getters
   const getRemoveProductState = computed(() => removeProductIsOpen.value);
 
-  return {};
+  return { removeProductIsOpen, setToggleRemoveProduct, getRemoveProductState };
 });
 
 if (import.meta.hot) {
