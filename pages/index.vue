@@ -6,8 +6,8 @@
           <h2 class="font-semibold mb-4 text-3xl">Bem vindo(a),<br><span class="text-primary">{{ loggedUserNick
               }}</span>
           </h2>
-          <p class="mb-4">Confira as principais informações da sua loja. Ou, faça uma nova venda!</p>
-          <Button label="Nova venda" />
+          <p class="mb-8">Confira as principais informações da sua loja. Ou, faça uma nova venda!</p>
+          <Button label="Nova venda" @click="handleOnClickCreateSell" />
         </div>
         <img src="../assets//images/vector01.png" alt="People working on admin panel">
       </div>
@@ -32,11 +32,14 @@ import checkoutIcon from "@/assets/images/icons/checkout.png"
 import invoiceIcon from "@/assets/images/icons/invoice.png"
 import fastdeliveryIcon from "@/assets/images/icons/fastdelivery.png"
 import bestsellerIcon from "@/assets/images/icons/bestseller.png"
+
+//Types
 import { type SaleReceive } from "~/interfaces/receive/Sale";
+
+//Pinia
 import { useConfigStore } from "~/stores/useConfigStore";
 
 const loggedUserNick = ref('Silvana');
-
 const infoCards = ref([
   {
     title: 'Vendas do mês',
@@ -70,6 +73,7 @@ const infoCards = ref([
   }
 ]);
 
+const router = useRouter();
 const saleItems = ref<SaleReceive[]>([]);
 const config = useRuntimeConfig();
 
@@ -96,6 +100,11 @@ onMounted(async () => {
     console.log('Vendas:', saleItems.value);
   }
 });
+
+const handleOnClickCreateSell = () => {
+  console.log('Nova venda');
+  router.push('apps/business/new-sale');
+}
 
 
 </script>

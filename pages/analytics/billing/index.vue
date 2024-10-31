@@ -51,7 +51,7 @@ const infoCards = ref([
     imageName: suit,
     info: '255',
     infoComplement: 'peças',
-  }, 
+  },
   {
     title: 'Faturamento do ano',
     imageName: invoice,
@@ -59,199 +59,32 @@ const infoCards = ref([
   }
 ]);
 
-const saleItems = ref<SaleReceive[]>(
-  [
-    {
-      "id": "2b3c4d5e",
-      "company": {
-        "id": "c9d8e7f6",
-        "name": "Company A",
-        "cnpj": "12.345.678/0001-90",
-        "category": "Vestuário",
-        "phones": [
-          "(11) 1234-5678",
-          "(11) 9876-5432"
-        ],
-        "createdAt": "2024-10-18T08:45:00Z",
-        "updatedAt": "2024-10-18T09:15:00Z"
-      },
-      "createdAt": "2024-10-18T08:45:00Z",
-      "updatedAt": "2024-10-18T09:15:00Z",
-      "deleted": false,
-      "description": "6x Camiseta P Branco, 2x Bermudas M Padrão, 3x Calças M Padrão",
-      "saleItems": [
-        {
-          "id": "item6",
-          "product": {
-            "productId": "prod6",
-            "productName": "Product F",
-            "color": "Azul Marinho",
-            "size": "M",
-            "amount": 2,
-            "price": 39.90
-          },
-          "price": 120.0,
-          "amount": 2
-        },
-        {
-          "id": "item7",
-          "product": {
-            "productId": "prod7",
-            "productName": "Product G",
-            "color": "Azul Marinho",
-            "size": "M",
-            "amount": 2,
-            "price": 39.90
-          },
-          "price": 90.0,
-          "amount": 3
-        }
-      ]
-    },
-    {
-      "id": "2b3c4d5e",
-      "company": {
-        "id": "c9d8e7f6",
-        "name": "Company A",
-        "cnpj": "12.345.678/0001-90",
-        "category": "Vestuário",
-        "phones": [
-          "(11) 1234-5678",
-          "(11) 9876-5432"
-        ],
-        "createdAt": "2024-10-18T08:45:00Z",
-        "updatedAt": "2024-10-18T09:15:00Z"
-      },
-      "createdAt": "2024-10-18T08:45:00Z",
-      "updatedAt": "2024-10-18T09:15:00Z",
-      "deleted": false,
-      "description": "6x Camiseta P Branco, 2x Bermudas M Padrão, 3x Calças M Padrão",
-      "saleItems": [
-        {
-          "id": "item6",
-          "product": {
-            "productId": "prod6",
-            "productName": "Product F",
-            "color": "Azul Marinho",
-            "size": "M",
-            "amount": 2,
-            "price": 39.90
-          },
-          "price": 120.0,
-          "amount": 2
-        },
-        {
-          "id": "item7",
-          "product": {
-            "productId": "prod7",
-            "productName": "Product G",
-            "color": "Azul Marinho",
-            "size": "M",
-            "amount": 2,
-            "price": 39.90
-          },
-          "price": 90.0,
-          "amount": 3
-        }
-      ]
-    },
-    {
-      "id": "2b3c4d5e",
-      "company": {
-        "id": "c9d8e7f6",
-        "name": "Company A",
-        "cnpj": "12.345.678/0001-90",
-        "category": "Vestuário",
-        "phones": [
-          "(11) 1234-5678",
-          "(11) 9876-5432"
-        ],
-        "createdAt": "2024-10-18T08:45:00Z",
-        "updatedAt": "2024-10-18T09:15:00Z"
-      },
-      "createdAt": "2024-10-18T08:45:00Z",
-      "updatedAt": "2024-10-18T09:15:00Z",
-      "deleted": false,
-      "description": "6x Camiseta P Branco, 2x Bermudas M Padrão, 3x Calças M Padrão",
-      "saleItems": [
-        {
-          "id": "item6",
-          "product": {
-            "productId": "prod6",
-            "productName": "Product F",
-            "color": "Azul Marinho",
-            "size": "M",
-            "amount": 2,
-            "price": 39.90
-          },
-          "price": 120.0,
-          "amount": 2
-        },
-        {
-          "id": "item7",
-          "product": {
-            "productId": "prod7",
-            "productName": "Product G",
-            "color": "Azul Marinho",
-            "size": "M",
-            "amount": 2,
-            "price": 39.90
-          },
-          "price": 90.0,
-          "amount": 3
-        }
-      ]
-    },
-    {
-      "id": "2b3c4d5e",
-      "company": {
-        "id": "c9d8e7f6",
-        "name": "Company A",
-        "cnpj": "12.345.678/0001-90",
-        "category": "Vestuário",
-        "phones": [
-          "(11) 1234-5678",
-          "(11) 9876-5432"
-        ],
-        "createdAt": "2024-10-18T08:45:00Z",
-        "updatedAt": "2024-10-18T09:15:00Z"
-      },
-      "createdAt": "2024-10-18T08:45:00Z",
-      "updatedAt": "2024-10-18T09:15:00Z",
-      "deleted": false,
-      "description": "6x Camiseta P Branco, 2x Bermudas M Padrão, 3x Calças M Padrão",
-      "saleItems": [
-        {
-          "id": "item6",
-          "product": {
-            "productId": "prod6",
-            "productName": "Product F",
-            "color": "Azul Marinho",
-            "size": "M",
-            "amount": 2,
-            "price": 39.90
-          },
-          "price": 120.0,
-          "amount": 2
-        },
-        {
-          "id": "item7",
-          "product": {
-            "productId": "prod7",
-            "productName": "Product G",
-            "color": "Azul Marinho",
-            "size": "M",
-            "amount": 2,
-            "price": 39.90
-          },
-          "price": 90.0,
-          "amount": 3
-        }
-      ]
-    },
-  ]
+const saleItems = ref<SaleReceive[]>([]);
+const config = useRuntimeConfig();
 
-)
+// Pega token de autenticação
+const { token } = storeToRefs(useConfigStore());
+
+// Busca por vendas
+const { execute, data, error } = useFetch<SaleReceive[]>(`${config.public.API_URL}/sale`, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token.value}`
+  },
+  lazy: true
+});
+
+// Busca vendas quando montar a página
+onMounted(async () => {
+  await execute();
+  if (error.value) {
+    console.error('Erro ao buscar vendas:', error.value);
+  } else {
+    saleItems.value = data.value || [];
+    console.log('Vendas:', saleItems.value);
+  }
+});
 
 </script>
 
