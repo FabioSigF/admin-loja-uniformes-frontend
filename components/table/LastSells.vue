@@ -2,30 +2,42 @@
   <div>
     <div class="text-xl font-semibold mb-8">Últimas vendas</div>
     <DataTable :value="props.sales" tableStyle="min-width: 50rem">
-      <Column field="id" header="ID PEDIDO"></Column>
       <Column header="EMPRESA">
         <template #body="slotProps">
-          {{ slotProps.data.company ? slotProps.data.company.name : 'Empresa não definida' }}
+          {{ slotProps.data.company && truncateText(slotProps.data.company.name, 25) }}
         </template>
       </Column>
-      <Column field="companyId" header="RESUMO"></Column>
-      <Column field="category" header="STATUS"></Column>
-      <Column field="quantity" header="PREÇO"></Column>
-      <Column field="actions" header="AÇÔES" class="w-[442px]">
+      <Column field="companyId" header="RESUMO">
+        <template #body="slotProps">
+          {{ truncateText(formatSummary(slotProps.data.saleItems), 60) }}
+        </template>
+      </Column>
+      <Column field="totalPrice" header="PREÇO">
+        <template #body="slotProps">
+          <span class="block whitespace-nowrap">
+            R$ {{ slotProps.data.totalPrice && slotProps.data.totalPrice.toFixed(2) }}
+          </span>
+        </template>
+      </Column>
+      <Column field="createdAt" header="DATA">
+        <template #body="slotProps">
+          {{ formatDateToMMM(slotProps.data.createdAt) }}
+        </template>
+      </Column>
+      <Column field="actions" header="AÇÔES">
         <template #body="slotProps">
           <div class="flex gap-2 items-center">
-            <Button label="Detalhes" @click="handleOnClickDetailsProduct(slotProps.data.id)" severity="secondary"
-              outlined>
+            <Button @click="handleOnClickDetailsProduct(slotProps.data.id)" severity="secondary" outlined>
               <template #icon>
                 <Icon name="mynaui:eye" size="24px" />
               </template>
             </Button>
-            <Button label="Editar" @click="handleOnClickEditProduct(slotProps.data.id)" severity="info" outlined>
+            <Button @click="handleOnClickEditProduct(slotProps.data.id)" severity="info" outlined>
               <template #icon>
                 <Icon name="mynaui:edit-one" size="24px" />
               </template>
             </Button>
-            <Button label="Remover" @click="handleOnClickRemoveProduct(slotProps.data.id)" severity="danger" outlined>
+            <Button @click="handleOnClickRemoveProduct(slotProps.data.id)" severity="danger" outlined>
               <template #icon>
                 <Icon name="mynaui:trash" size="24px" />
               </template>
@@ -59,6 +71,14 @@ const handleOnClickEditProduct = (id: number) => {
 const handleOnClickRemoveProduct = (id: number) => {
   console.log(id)
 }
+
+const formatSummary = (saleItems: any[]) => {
+  console.log(saleItems)
+  return saleItems
+    .map(item => `${item.amount}x ${item.product.productName}`) // Formata a string
+    .join(', '); // Junta os itens com vírgula
+}
+
 
 </script>
 

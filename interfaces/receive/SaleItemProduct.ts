@@ -4,5 +4,5 @@ export interface SaleItemProductReceive {
   color: string;
   size: string;
   price: number;
-  amount: number;
+  stockAmount: number;
 }
