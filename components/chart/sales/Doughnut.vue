@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch, ref } from 'vue';
+import { watch, ref } from 'vue';
 import type { SaleReceive } from '~/interfaces/receive/Sale';
 
 const props = defineProps({
@@ -28,27 +28,32 @@ const setChartData = (sales: SaleReceive[]) => {
   
   // Transformando as vendas em dados para o gráfico
   const productCounts = sales.reduce((acc, sale) => {
+    const company = sale.company.name;
     sale.saleItems.forEach(item => {
-      const name = item.product.productName;
+      const name = company;
       acc[name] = (acc[name] || 0) + item.amount;
     });
     return acc;
   }, {} as Record<string, number>);
 
+  const topCompanies = Object.entries(productCounts)
+    .sort(([, a], [, b]) => b - a)  // Ordena por quantidade de vendas, de forma decrescente
+    .slice(0, 3);                    // Seleciona os 3 maiores
+
   return {
-    labels: Object.keys(productCounts),
+    labels: topCompanies.map(([name]) => name),
     datasets: [
       {
-        data: Object.values(productCounts),
+        data: topCompanies.map(([, count]) => count),
         backgroundColor: [
-          documentStyle.getPropertyValue('--p-cyan-500'), 
-          documentStyle.getPropertyValue('--p-orange-500'), 
-          documentStyle.getPropertyValue('--p-gray-500')
+          documentStyle.getPropertyValue('--p-green-400'), 
+          documentStyle.getPropertyValue('--p-blue-400'), 
+          documentStyle.getPropertyValue('--p-purple-400')
         ],
         hoverBackgroundColor: [
-          documentStyle.getPropertyValue('--p-cyan-400'), 
-          documentStyle.getPropertyValue('--p-orange-400'), 
-          documentStyle.getPropertyValue('--p-gray-400')
+          documentStyle.getPropertyValue('--p-green-300'), 
+          documentStyle.getPropertyValue('--p-blue-300'), 
+          documentStyle.getPropertyValue('--p-purple-300')
         ]
       }
     ]

@@ -18,20 +18,20 @@
         :image-name="infoCard.imageName" :info="infoCard.info" :info-complement="infoCard.infoComplement"
         :link="infoCard.link" :link-text="infoCard.linkText" />
     </section>
-    
+
     <section class="grid grid-cols-10 gap-8">
       <Container class="col-span-6">
-        <h3 class="text-xl font-semibold mb-8">Vendas por período</h3>
-        <ChartSalesBar :sales="saleItems"/>
+        <h3 class="text-xl font-semibold mb-8">Vendas no ano de {{ currentYear }}</h3>
+        <ChartSalesBar :sales="saleItems" />
       </Container>
       <Container class="col-span-4">
-        <h3 class="text-xl font-semibold mb-8">Empresas que mais faturam</h3>
+        <h3 class="text-xl font-semibold mb-8">Empresas que mais faturaram em {{ currentYear }}</h3>
         <ChartSalesDoughnut :sales="saleItems" />
       </Container>
     </section>
 
     <Container>
-      <TableLastSells :sales="saleItems" />
+      <TableLastSales :data="dataLastSaleItems" @pageChange="fetchSales" />
     </Container>
 
   </div>
@@ -45,7 +45,7 @@ import fastdeliveryIcon from "@/assets/images/icons/fastdelivery.png"
 import bestsellerIcon from "@/assets/images/icons/bestseller.png"
 
 //Types
-import { type SaleReceive } from "~/interfaces/receive/Sale";
+import { type PagedSaleReceive, type SaleReceive } from "~/interfaces/receive/Sale";
 
 //Pinia
 import { useConfigStore } from "~/stores/useConfigStore";
@@ -86,20 +86,61 @@ const infoCards = ref([
 
 const router = useRouter();
 const saleItems = ref<SaleReceive[]>([]);
+const dataLastSaleItems = ref<PagedSaleReceive>();
 const config = useRuntimeConfig();
 
 // Pega token de autenticação
 const { token } = storeToRefs(useConfigStore());
 
-// Busca por vendas
-const { execute, data, error } = useFetch<SaleReceive[]>(`${config.public.API_URL}/sale`, {
+
+// Obtém o ano atual
+const currentYear = new Date().getFullYear();
+
+// Define o primeiro e o último dia do ano atual
+const startDate = `${currentYear}-01-01`;
+const endDate = `${currentYear}-12-31`;
+
+// Busca por todas as vendas do ano
+const { execute, data, error } = useFetch<SaleReceive[]>(`${config.public.API_URL}/sale/by-date/`, {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token.value}`
   },
+  params: {
+    startDate,
+    endDate,
+  },
   lazy: true
 });
+
+// Busca por últimas vendas
+const fetchSales = async (page: number) => {
+  // Lógica para buscar as vendas com base na nova página
+  const { execute, data, error } = useFetch<PagedSaleReceive>(`${config.public.API_URL}/sale/by-date/pagination/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`
+    },
+    params: {
+      startDate,
+      endDate,
+      page,
+      limit: 5
+    },
+    lazy: true
+  });
+
+  await execute();
+
+  if (error.value) {
+    console.error('Erro ao buscar últimas vendas:', error.value);
+  } else {
+    dataLastSaleItems.value = data.value || undefined;
+  }
+};
+
 // Busca vendas quando montar a página
 onMounted(async () => {
   await execute();
@@ -108,8 +149,9 @@ onMounted(async () => {
   } else {
     saleItems.value = data.value || [];
   }
-});
 
+  await fetchSales(1);
+});
 
 
 const handleOnClickCreateSell = () => {

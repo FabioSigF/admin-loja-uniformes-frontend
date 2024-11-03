@@ -10,3 +10,11 @@ export interface SaleReceive {
   deleted: boolean;
   saleItems: SaleItemReceive[];
 }
+
+export interface PagedSaleReceive {
+  content: SaleReceive[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+}
