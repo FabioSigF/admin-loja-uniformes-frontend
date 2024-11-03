@@ -31,7 +31,7 @@
     </section>
 
     <Container>
-      <TableLastSales :data="dataLastSaleItems" @pageChange="fetchSales" />
+      <TableLastSales :data="dataLastSaleItems" @pageChange="fetchLastSales" />
     </Container>
 
   </div>
@@ -101,21 +101,30 @@ const startDate = `${currentYear}-01-01`;
 const endDate = `${currentYear}-12-31`;
 
 // Busca por todas as vendas do ano
-const { execute, data, error } = useFetch<SaleReceive[]>(`${config.public.API_URL}/sale/by-date/`, {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token.value}`
-  },
-  params: {
-    startDate,
-    endDate,
-  },
-  lazy: true
-});
+const fetchSales = async () => {
+  // Lógica para buscar as vendas
+  const { execute, data, error } = useFetch<SaleReceive[]>(`${config.public.API_URL}/sale/by-date/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`
+    },
+    params: {
+      startDate,
+      endDate,
+    },
+    lazy: true
+  });
+  await execute();
+  if (error.value) {
+    console.error('Erro ao buscar vendas:', error.value);
+  } else {
+    saleItems.value = data.value || [];
+  }
+}
 
 // Busca por últimas vendas
-const fetchSales = async (page: number) => {
+const fetchLastSales = async (page: number, limit: number) => {
   // Lógica para buscar as vendas com base na nova página
   const { execute, data, error } = useFetch<PagedSaleReceive>(`${config.public.API_URL}/sale/by-date/pagination/`, {
     method: 'GET',
@@ -127,7 +136,7 @@ const fetchSales = async (page: number) => {
       startDate,
       endDate,
       page,
-      limit: 5
+      limit
     },
     lazy: true
   });
@@ -143,14 +152,9 @@ const fetchSales = async (page: number) => {
 
 // Busca vendas quando montar a página
 onMounted(async () => {
-  await execute();
-  if (error.value) {
-    console.error('Erro ao buscar vendas:', error.value);
-  } else {
-    saleItems.value = data.value || [];
-  }
+  await fetchSales();
 
-  await fetchSales(1);
+  await fetchLastSales(1, 5);
 });
 
 

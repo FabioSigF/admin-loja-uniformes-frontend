@@ -52,7 +52,7 @@
         </Column>
       </DataTable>
       <Paginator :rows="data.size" :totalRecords="data.totalElements" :rowsPerPageOptions="[5, 10, 20]"
-        @page="onPageChange">
+        @page="onPageChange" @rowsPerPageChange="onRowsPerPageChange">
       </Paginator>
     </div>
     <div v-else>
@@ -70,11 +70,15 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'pageChange', page: number): void
+  (e: 'pageChange', page: number, limit: number): void
 }>();
 
 const onPageChange = (event: any) => {
-  emit('pageChange', event.page + 1); // Adiciona 1 porque a página é baseada em zero
+  emit('pageChange', event.page + 1, event.rows); // Adiciona 1 porque a página é baseada em zero
+}
+
+const onRowsPerPageChange = (event: any) => {
+  emit('pageChange', 1, event.rows); // Reset to the first page when changing rows per page
 }
 
 const handleOnClickDetailsProduct = (id: number) => {
