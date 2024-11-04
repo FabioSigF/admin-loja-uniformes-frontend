@@ -3,8 +3,8 @@
     <h3 class="text-xl font-semibold mb-8">Últimas vendas</h3>
 
 
-    <div v-if="data" class="flex flex-col gap-4">
-      <DataTable :value="data.content" tableStyle="min-width: 50rem">
+    <div v-if="props.data" class="flex flex-col gap-4">
+      <DataTable :value="props.data.content" tableStyle="min-width: 50rem">
         <Column field="companyId" header="RESUMO">
           <template #body="slotProps">
             <div class="flex flex-col gap-2">
@@ -51,7 +51,7 @@
           </template>
         </Column>
       </DataTable>
-      <Paginator :rows="data.size" :totalRecords="data.totalElements" :rowsPerPageOptions="[5, 10, 20]"
+      <Paginator :rows="props.data.size" :totalRecords="props.data.totalElements" :rowsPerPageOptions="[5, 10, 20]"
         @page="onPageChange" @rowsPerPageChange="onRowsPerPageChange">
       </Paginator>
     </div>
@@ -68,6 +68,8 @@ import { type PagedSaleReceive } from "@/interfaces/receive/Sale";
 const props = defineProps<{
   data?: PagedSaleReceive
 }>()
+
+console.log(props.data)
 
 const emit = defineEmits<{
   (e: 'pageChange', page: number, limit: number): void

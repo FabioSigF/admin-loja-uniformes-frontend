@@ -51,11 +51,35 @@ import { type PagedSaleReceive, type SaleReceive } from "~/interfaces/receive/Sa
 import { useConfigStore } from "~/stores/useConfigStore";
 
 const loggedUserNick = ref('Silvana');
-const infoCards = ref([
+
+//Router
+const router = useRouter();
+
+//Lista de itens
+const saleItems = ref<SaleReceive[]>([]);
+const dataLastSaleItems = ref<PagedSaleReceive>();
+
+//Runtime Config
+const config = useRuntimeConfig();
+
+// Pega token de autenticação
+const { token } = storeToRefs(useConfigStore());
+
+// ---- Card Info ----
+//Armazena as vendas do mês
+const cardSalesOfMonth = ref(0);
+//Armazena o faturamento do mês
+const cardBillingOfMonth = ref(0);
+//Armazena os pedidos feitos hoje
+const cardOrdersToday = ref(0);
+//Armazena a empresa mais lucrativa
+const cardMostProfitableCompany = ref('');
+
+const infoCards = computed(() => [
   {
     title: 'Vendas do mês',
     imageName: checkoutIcon,
-    info: '135',
+    info: cardSalesOfMonth.value.toString(),
     infoComplement: 'uniformes',
     link: '/sales',
     linkText: 'Ver vendas do mês'
@@ -63,14 +87,14 @@ const infoCards = ref([
   {
     title: 'Faturamento do mês',
     imageName: invoiceIcon,
-    info: 'R$ 27.789,0',
+    info: 'R$ ' + cardBillingOfMonth.value.toString(),
     link: '/sales',
     linkText: 'Ver faturamento do mês'
   },
   {
     title: 'Pedidos feitos hoje',
     imageName: fastdeliveryIcon,
-    info: '12',
+    info: cardOrdersToday.value.toString(),
     infoComplement: 'pedidos',
     link: '/clients',
     linkText: 'Ver pedidos de hoje'
@@ -78,23 +102,15 @@ const infoCards = ref([
   {
     title: 'Empresa mais lucrativa',
     imageName: bestsellerIcon,
-    info: 'Metta',
+    info: cardMostProfitableCompany.value.toString(),
     link: '/clients',
     linkText: 'Ver empresa estrela do mês'
   }
 ]);
 
-const router = useRouter();
-const saleItems = ref<SaleReceive[]>([]);
-const dataLastSaleItems = ref<PagedSaleReceive>();
-const config = useRuntimeConfig();
-
-// Pega token de autenticação
-const { token } = storeToRefs(useConfigStore());
-
-
 // Obtém o ano atual
 const currentYear = new Date().getFullYear();
+const currentMonth = new Date().getMonth() + 1;
 
 // Define o primeiro e o último dia do ano atual
 const startDate = `${currentYear}-01-01`;
@@ -120,9 +136,9 @@ const fetchSales = async () => {
     console.error('Erro ao buscar vendas:', error.value);
   } else {
     saleItems.value = data.value || [];
+    updateCardData();
   }
 }
-
 // Busca por últimas vendas
 const fetchLastSales = async (page: number, limit: number) => {
   // Lógica para buscar as vendas com base na nova página
@@ -149,6 +165,47 @@ const fetchLastSales = async (page: number, limit: number) => {
     dataLastSaleItems.value = data.value || undefined;
   }
 };
+
+const updateCardData = () => {
+  const today = new Date().toISOString().split('T')[0];
+
+  let salesOfMonth = 0;
+  let billingOfMonth = 0;
+  let ordersToday = 0;
+  const companyRevenueMap: Record<string, { name: string; revenue: number }> = {};
+
+  saleItems.value.forEach(sale => {
+    const saleMonth = new Date(sale.createdAt).getMonth() + 1;
+    const saleDate = sale.createdAt.split('T')[0];
+
+    if (saleMonth === currentMonth) {
+      salesOfMonth += 1;
+      billingOfMonth += sale.totalPrice;
+
+      if (saleDate === today) {
+        ordersToday += 1;
+      }
+
+      const { id, name } = sale.company;
+      if (!companyRevenueMap[id]) {
+        companyRevenueMap[id] = { name, revenue: 0 };
+      }
+      companyRevenueMap[id].revenue += sale.totalPrice;
+    }
+  });
+
+  cardSalesOfMonth.value = salesOfMonth;
+  cardBillingOfMonth.value = billingOfMonth;
+  cardOrdersToday.value = ordersToday;
+
+  // Determina a empresa mais lucrativa com base em totalPrice
+  const mostProfitableCompany = Object.values(companyRevenueMap).reduce(
+    (max, curr) => (curr.revenue > max.revenue ? curr : max),
+    { name: '', revenue: 0 }
+  );
+  cardMostProfitableCompany.value = mostProfitableCompany.name;
+};
+
 
 // Busca vendas quando montar a página
 onMounted(async () => {
