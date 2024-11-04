@@ -3,7 +3,7 @@
     <Container>
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="mb-4">Cadastrar Empresa</h2>
+          <h2 class="mb-4">Comércio</h2>
           <Breadcrumb :model="items" />
         </div>
         <Button label="Criar nova empresa" @click="handleOnCreateNewCompany" />
@@ -13,16 +13,18 @@
       <CardInfo v-for="infoCard in infoCards" :key="infoCard.title" :title="infoCard.title"
         :image-name="infoCard.imageName" :info="infoCard.info" :info-complement="infoCard.infoComplement"
         :link="infoCard.link" :link-text="infoCard.linkText" />
+    </div>      
+    <div class="flex items-center gap-4">
+      <InputGroup>
+        <InputGroupAddon>
+          <Icon name="mynaui:search" size="24px" />
+        </InputGroupAddon>
+        <InputText v-model="textSearch" placeholder="Buscar..." />
+      </InputGroup>
+      <Button label="Buscar empresa" @click="handleOnSearchCompany" class="button_search" />
     </div>
-    <InputGroup>
-      <InputGroupAddon>
-        <Icon name="mynaui:search" size="24px" />
-      </InputGroupAddon>
-      <InputText v-model="textSearch" placeholder="Buscar..." />
-    </InputGroup>
-
     <Container>
-      <TableCompanies :companies="companies"/>
+      <TableCompanies :companies="companies" @pageChange="fetchCompanies" />
     </Container>
   </div>
 </template>
@@ -33,7 +35,7 @@ import shoppinglist from "@/assets/images/icons/shoppinglist.png"
 import bestsellerIcon from "@/assets/images/icons/bestseller.png"
 import tracking from "@/assets/images/icons/tracking.png"
 import ecommerce from "@/assets/images/icons/ecommerce.png"
-import type { CompanyReceive } from "~/interfaces/receive/Company";
+import type { CompanyReceive, PagedCompanyReceive } from "~/interfaces/receive/Company";
 
 
 const items = ref([
@@ -77,31 +79,39 @@ const infoCards = ref([
 ]);
 
 const router = useRouter();
-const companies = ref<CompanyReceive[]>([]);
+const companies = ref<PagedCompanyReceive>();
 const config = useRuntimeConfig();
 
 // Pega token de autenticação
 const { token } = storeToRefs(useConfigStore());
 
-// Busca por vendas
-const { execute, data, error } = useFetch<CompanyReceive[]>(`${config.public.API_URL}/companies`, {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token.value}`
-  },
-  lazy: true
-});
+// Busca pelas empresas
+const fetchCompanies = async (page: number, limit: number) => {
+  const { execute, data, error } = useFetch<PagedCompanyReceive>(`${config.public.API_URL}/companies/pagination/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`,
+    },
+    params: {
+      page,
+      limit
+    },
+    lazy: true
+  });
+
+  await execute();
+
+  if (error.value) {
+    console.error('Erro ao buscar empresas: ', error.value);
+  } else {
+    companies.value = data.value || undefined;
+  }
+}
 
 // Busca vendas quando montar a página
 onMounted(async () => {
-  await execute();
-  if (error.value) {
-    console.error('Erro ao buscar empresas:', error.value);
-  } else {
-    companies.value = data.value || [];
-    console.log('Vendas:', companies.value);
-  }
+  await fetchCompanies(1, 5);
 });
 
 
@@ -109,8 +119,16 @@ const handleOnCreateNewCompany = () => {
   navigateTo('/apps/business/new-company');
 }
 
+const handleOnSearchCompany = () => {
+  console.log('Buscando empresa:', textSearch.value);
+}
+
 
 const textSearch = ref('');
 </script>
 
-<style scoped></style>
+<style scoped>
+.button_search {
+  width: 160px!important;
+}
+</style>

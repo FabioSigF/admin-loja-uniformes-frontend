@@ -37,6 +37,10 @@
 .p-button {
   justify-content: center !important;
 }
+.p-button-label {
+  white-space: nowrap !important;
+  display: block;
+}
 
 /* Modal */
 .p-dialog-close-button {

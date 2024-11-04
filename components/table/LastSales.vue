@@ -32,17 +32,17 @@
         <Column field="actions" header="AÇÔES">
           <template #body="slotProps">
             <div class="flex gap-2 items-center">
-              <Button @click="handleOnClickDetailsProduct(slotProps.data.id)" severity="secondary" outlined>
+              <Button v-tooltip.top="'Ver detalhes da venda'" @click="handleOnClickDetailsProduct(slotProps.data.id)" severity="secondary" outlined>
                 <template #icon>
                   <Icon name="mynaui:eye" size="24px" />
                 </template>
               </Button>
-              <Button @click="handleOnClickEditProduct(slotProps.data.id)" severity="info" outlined>
+              <Button v-tooltip.top="'Editar venda'" @click="handleOnClickEditProduct(slotProps.data.id)" severity="info" outlined>
                 <template #icon>
                   <Icon name="mynaui:edit-one" size="24px" />
                 </template>
               </Button>
-              <Button @click="handleOnClickRemoveProduct(slotProps.data.id)" severity="danger" outlined>
+              <Button v-tooltip.top="'Remover venda'" @click="handleOnClickRemoveProduct(slotProps.data.id)" severity="danger" outlined>
                 <template #icon>
                   <Icon name="mynaui:trash" size="24px" />
                 </template>
@@ -68,8 +68,6 @@ import { type PagedSaleReceive } from "@/interfaces/receive/Sale";
 const props = defineProps<{
   data?: PagedSaleReceive
 }>()
-
-console.log(props.data)
 
 const emit = defineEmits<{
   (e: 'pageChange', page: number, limit: number): void

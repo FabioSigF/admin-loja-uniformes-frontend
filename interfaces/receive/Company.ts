@@ -7,3 +7,11 @@ export interface CompanyReceive {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface PagedCompanyReceive {
+  content: CompanyReceive[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+}

@@ -7,7 +7,7 @@
               }}</span>
           </h2>
           <p class="mb-8">Confira as principais informações da sua loja. Ou, faça uma nova venda!</p>
-          <Button label="Nova venda" @click="handleOnClickCreateSell" />
+          <Button label="Ir para Comércio" @click="handleOnClickGoToBusiness" />
         </div>
         <img src="../assets//images/vector01.png" alt="People working on admin panel">
       </div>
@@ -215,9 +215,8 @@ onMounted(async () => {
 });
 
 
-const handleOnClickCreateSell = () => {
-  console.log('Nova venda');
-  router.push('apps/business/new-sale');
+const handleOnClickGoToBusiness = () => {
+  router.push('apps/business');
 }
 
 
