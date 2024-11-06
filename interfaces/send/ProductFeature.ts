@@ -3,5 +3,4 @@ export interface ProductFeatureSend {
   size: string;
   price: number;
   stockQuantity: number;
-  productId: string;
 }

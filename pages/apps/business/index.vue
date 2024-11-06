@@ -1,31 +1,34 @@
 <template>
-  <div class="flex flex-col gap-8">
-    <Container>
-      <div class="flex justify-between items-center">
-        <div>
-          <h2 class="mb-4">Comércio</h2>
-          <Breadcrumb :model="items" />
+  <div>
+    <div class="flex flex-col gap-8">
+      <Container>
+        <div class="flex justify-between items-center">
+          <div>
+            <h2 class="mb-4">Comércio</h2>
+            <Breadcrumb :model="items" />
+          </div>
+          <Button label="Criar nova empresa" @click="handleOnCreateNewCompany" />
         </div>
-        <Button label="Criar nova empresa" @click="handleOnCreateNewCompany" />
+      </Container>
+      <div class="grid grid-cols-4 gap-8">
+        <CardInfo v-for="infoCard in infoCards" :key="infoCard.title" :title="infoCard.title"
+          :image-name="infoCard.imageName" :info="infoCard.info" :info-complement="infoCard.infoComplement"
+          :link="infoCard.link" :link-text="infoCard.linkText" />
       </div>
-    </Container>
-    <div class="grid grid-cols-4 gap-8">
-      <CardInfo v-for="infoCard in infoCards" :key="infoCard.title" :title="infoCard.title"
-        :image-name="infoCard.imageName" :info="infoCard.info" :info-complement="infoCard.infoComplement"
-        :link="infoCard.link" :link-text="infoCard.linkText" />
-    </div>      
-    <div class="flex items-center gap-4">
-      <InputGroup>
-        <InputGroupAddon>
-          <Icon name="mynaui:search" size="24px" />
-        </InputGroupAddon>
-        <InputText v-model="textSearch" placeholder="Buscar..." />
-      </InputGroup>
-      <Button label="Buscar empresa" @click="handleOnSearchCompany" class="button_search" />
+      <div class="flex items-center gap-4">
+        <InputGroup>
+          <InputGroupAddon>
+            <Icon name="mynaui:search" size="24px" />
+          </InputGroupAddon>
+          <InputText v-model="textSearch" placeholder="Buscar..." />
+        </InputGroup>
+        <Button label="Buscar empresa" @click="handleOnSearchCompany" class="button_search" />
+      </div>
+      <Container>
+        <TableCompanies :companies="companies" @pageChange="fetchCompanies" />
+      </Container>
     </div>
-    <Container>
-      <TableCompanies :companies="companies" @pageChange="fetchCompanies" />
-    </Container>
+    <Toast />
   </div>
 </template>
 
@@ -35,7 +38,8 @@ import shoppinglist from "@/assets/images/icons/shoppinglist.png"
 import bestsellerIcon from "@/assets/images/icons/bestseller.png"
 import tracking from "@/assets/images/icons/tracking.png"
 import ecommerce from "@/assets/images/icons/ecommerce.png"
-import type { CompanyReceive, PagedCompanyReceive } from "~/interfaces/receive/Company";
+import type { PagedCompanyReceive } from "~/interfaces/receive/Company";
+import { useToastStore } from "~/stores/useToastStore";
 
 
 const items = ref([
@@ -123,12 +127,22 @@ const handleOnSearchCompany = () => {
   console.log('Buscando empresa:', textSearch.value);
 }
 
-
 const textSearch = ref('');
+
+//Toast config
+const toast = useToast();
+
+const { companyWasCreatedInfo, getCompanyWasCreatedStatus, setToggleCompanyWasCreated } = useToastStore();
+onMounted(() => {
+  if (getCompanyWasCreatedStatus) {
+    toast.add({ severity: companyWasCreatedInfo.severity, summary: companyWasCreatedInfo.summary, life: companyWasCreatedInfo.life });
+    setToggleCompanyWasCreated();
+  }
+});
 </script>
 
 <style scoped>
 .button_search {
-  width: 160px!important;
+  width: 160px !important;
 }
 </style>
