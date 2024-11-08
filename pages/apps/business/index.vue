@@ -5,7 +5,7 @@
         <div class="flex justify-between items-center">
           <div>
             <h2 class="mb-4">Comércio</h2>
-            <Breadcrumb :model="items" />
+            <Breadcrumb :model="breadcrumbItems" />
           </div>
           <Button label="Criar nova empresa" @click="handleOnCreateNewCompany" />
         </div>
@@ -38,21 +38,30 @@ import shoppinglist from "@/assets/images/icons/shoppinglist.png"
 import bestsellerIcon from "@/assets/images/icons/bestseller.png"
 import tracking from "@/assets/images/icons/tracking.png"
 import ecommerce from "@/assets/images/icons/ecommerce.png"
-import type { PagedCompanyReceive } from "~/interfaces/receive/Company";
+import type { CompanyReceive, PagedCompanyReceive } from "~/interfaces/receive/Company";
 import { useToastStore } from "~/stores/useToastStore";
 
-
-const items = ref([
+//Breadcrumb Items
+const breadcrumbItems = ref([
   { label: 'Inicio' },
   { label: 'Aplicativos' },
   { label: 'Comércio' },
 ]);
 
-const infoCards = ref([
+//InfoCard data
+const mostProfitableCompany = ref<CompanyReceive>();
+const amountOfCompaniesCreatedOnMonth = ref<number>(0);
+const amountOfCompanies = ref<number>(0);
+const amountOfSales = ref<number>(0);
+
+const companies = ref<PagedCompanyReceive>();
+
+console.log(mostProfitableCompany.value)
+const infoCards = computed(() => [
   {
     title: 'Empresas cadastradas',
     imageName: shoppinglist,
-    info: '135',
+    info: amountOfCompanies.value.toString(),
     infoComplement: 'parceiros',
     link: '/sales',
     linkText: 'Ver todas as empresas'
@@ -60,30 +69,41 @@ const infoCards = ref([
   {
     title: 'Empresa mais lucrativa',
     imageName: bestsellerIcon,
-    info: 'Metta',
+    info: mostProfitableCompany.value?.name || 'Desconhecido',
     link: '/sales',
     linkText: 'Ver empresa estrela do mês'
   },
   {
     title: 'Novos pedidos do mês',
     imageName: tracking,
-    info: '12',
+    info: amountOfSales.value.toString(),
     infoComplement: 'pedidos',
     link: '/clients',
     linkText: 'Ver pedidos do mês'
   },
   {
-    title: 'Novos parceiros do mês',
+    title: 'Novos parceiros no mês',
     imageName: ecommerce,
-    info: '12',
+    info: amountOfCompaniesCreatedOnMonth.value.toString(),
     infoComplement: 'pedidos',
     link: '/clients',
     linkText: 'Ver novas parceiras'
   }
 ]);
 
-const router = useRouter();
-const companies = ref<PagedCompanyReceive>();
+// Obtém o ano atual
+const currentYear = new Date().getFullYear();
+const currentMonth = new Date().getMonth() + 1;
+
+// Define o primeiro e o último dia do ano atual
+const startDate = `${currentYear}-01-01`;
+const endDate = `${currentYear}-12-31`;
+
+const startMonth = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
+const lastDayOfMonth = new Date(currentYear, currentMonth, 0).getDate();
+const endMonth = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${lastDayOfMonth}`;
+
+
 const config = useRuntimeConfig();
 
 // Pega token de autenticação
@@ -113,9 +133,97 @@ const fetchCompanies = async (page: number, limit: number) => {
   }
 }
 
+const fetchMostProfitableCompany = async () => {
+  const { execute, data, error } = await useFetch<CompanyReceive>(`${config.public.API_URL}/companies/most-profitable-company`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`,
+    },
+    params: {
+      startDate,
+      endDate,
+    }
+  });
+
+  await execute();
+
+  if (error.value) {
+    console.error('Erro ao buscar empresa mais lucrativa: ', error.value);
+  } else {
+    mostProfitableCompany.value = data.value || undefined;
+  }
+}
+
+const fetchAmountOfCompaniesCreatedOnMonth = async () => {
+  const { execute, data, error } = await useFetch<number>(`${config.public.API_URL}/companies/created-in-date-range`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`,
+    },
+    params: {
+      startDate: startMonth,
+      endDate: endMonth,
+    }
+  });
+
+  await execute();
+
+  if (error.value) {
+    console.error('Erro ao buscar quantidade de empresas criadas no mês: ', error.value);
+  } else {
+    amountOfCompaniesCreatedOnMonth.value = data.value || 0;
+  }
+}
+
+const fetchAmountOfCompanies = async () => {
+  const { execute, data, error } = await useFetch<number>(`${config.public.API_URL}/companies/amount`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`,
+    }
+  });
+
+  await execute();
+
+  if (error.value) {
+    console.error('Erro ao buscar quantidade de empresas cadastradas: ', error.value);
+  } else {
+    amountOfCompanies.value = data.value || 0;
+  }
+}
+
+const fetchAmountOfSales = async () => {
+  const { execute, data, error } = await useFetch<number>(`${config.public.API_URL}/sale/amount-in-date-range`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`,
+    },
+    params: {
+      startDate: startMonth,
+      endDate: endMonth,
+    }
+  });
+
+  await execute();
+
+  if (error.value) {
+    console.error('Erro ao buscar quantidade de vendas realizadas: ', error.value);
+  } else {
+    amountOfSales.value = data.value || 0;
+  }
+}
+
 // Busca vendas quando montar a página
 onMounted(async () => {
   await fetchCompanies(1, 5);
+  await fetchMostProfitableCompany();
+  await fetchAmountOfCompaniesCreatedOnMonth();
+  await fetchAmountOfCompanies();
+  await fetchAmountOfSales();
 });
 
 

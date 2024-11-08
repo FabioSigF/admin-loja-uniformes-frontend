@@ -81,14 +81,14 @@ const infoCards = computed(() => [
     imageName: checkoutIcon,
     info: cardSalesOfMonth.value.toString(),
     infoComplement: 'uniformes',
-    link: '/sales',
+    link: '/apps/business',
     linkText: 'Ver vendas do mês'
   },
   {
     title: 'Faturamento do mês',
     imageName: invoiceIcon,
     info: 'R$ ' + cardBillingOfMonth.value.toString(),
-    link: '/sales',
+    link: '/apps/business',
     linkText: 'Ver faturamento do mês'
   },
   {
@@ -96,14 +96,14 @@ const infoCards = computed(() => [
     imageName: fastdeliveryIcon,
     info: cardOrdersToday.value.toString(),
     infoComplement: 'pedidos',
-    link: '/clients',
+    link: '/apps/business',
     linkText: 'Ver pedidos de hoje'
   },
   {
     title: 'Empresa mais lucrativa',
     imageName: bestsellerIcon,
     info: cardMostProfitableCompany.value.toString(),
-    link: '/clients',
+    link: '/apps/business',
     linkText: 'Ver empresa estrela do mês'
   }
 ]);
