@@ -1,75 +1,85 @@
-# Nuxt 3 Minimal Starter
+# Painel Admin - Loja de Uniformes (FrontEnd)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+![scrnli_oR1x1hgXGp72q5](https://github.com/user-attachments/assets/f6603c04-9c30-4f80-b4a5-32d0bd650690)
 
-## Setup
+## :fire: Introdução
 
-Make sure to install the dependencies:
+O Painel Admin é um projeto desenvolvido para a cliente Silvana Uniformes. Ele foi construído com foco em administração do negócio.
+
+## :computer: Tecnologias Utilizadas
+
+Para desenvolver o Front-End do projeto, utilizei:
+- Nuxt 3 : framework para desenvolvimento;
+- Typescript;
+- Pinia: gerenciamento de estados;
+Estilos:
+- PrimeVue: biblioteca de componentes;
+- Tailwind CSS: personalização de estilos dos componentes;
+- ChartsJS: biblioteca de gráficos;
+Outros:
+- Toast: disparo de avisos;
+
+## :mag: Instalação
+
+1. Clone o repositório:
 
 ```bash
-# npm
+git clone https://github.com/FabioSigF/admin-loja-uniformes-frontend
+cd admin-loja-uniformes-frontend
+```
+
+2. Instale as dependências:
+
+```bash
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+3. Crie um arquivo `.env` no diretório principal para configurar a rota para a API. Vou usar como exemplo a rota `http://localhost:8080`:
 
 ```bash
-# npm
+API_URL=http://localhost:8080
+```
+
+4. Agora, basta rodar a aplicação:
+
+```bash
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
 
-Build the application for production:
+## :bulb: Funcionalidades
 
-```bash
-# npm
-npm run build
+### Autenticação do usuário
 
-# pnpm
-pnpm run build
+Feita pela API Java com JWT e Spring Security. No Front, existe um middleware global que verifica se o token é válido e, caso não seja, redireciona para as rotas de autenticação /login ou /register.
 
-# yarn
-yarn build
+![scrnli_kD90hu1hUpiPDx](https://github.com/user-attachments/assets/6b27c683-e6c2-4c70-b830-7289b0001a96)
 
-# bun
-bun run build
-```
+### Sistema para Empresas
+É possível criar, atualizar ou remover empresas parceiras. 
 
-Locally preview production build:
+![scrnli_JD8NbwZmBP7K5w](https://github.com/user-attachments/assets/61b2c330-0e80-4349-a2c4-ff734361e73f)
 
-```bash
-# npm
-npm run preview
+### Vestuário para Empresas        
 
-# pnpm
-pnpm run preview
+Empresas possuem um vestuário de uniformes com cores e tamanhos. É possível criar novos modelos, atualizar ou removê-los.
 
-# yarn
-yarn preview
+![scrnli_uuIhiyaUzP8RT2](https://github.com/user-attachments/assets/7c55ac29-323a-4a87-8a6f-00be710d4ae0)
 
-# bun
-bun run preview
-```
+### Controle de estoque       
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Cada venda elimina itens do estoque. Uma venda só é possível caso existam itens suficientes. Estoque pode ser atualizado e consultado. 
+
+![scrnli_W8QmZxe4dpB4x7](https://github.com/user-attachments/assets/4d210d36-4dff-4184-8ccf-3d63f98971c2)
+
+### Registro de vendas
+
+Novas vendas podem ser registradas, atualizadas ou removidas.                   
+
+![scrnli_Z4k0z859lPlwEY](https://github.com/user-attachments/assets/68194f68-ab39-45e8-b5da-795ff35fab68)
+
+### Relatórios de desempenho       
+
+Relatórios de vendas por período, por empresa ou por categoria. Empresas são avaliadas coletivamente ou individualmente. A Loja de Uniformes pode consultar seu desempenho em vendas e criação de novos clientes por período.
+
+![scrnli_6R11g9wA2PMN6P](https://github.com/user-attachments/assets/074ce969-199f-4ec4-a6e6-cfa8e84571a3)
