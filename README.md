@@ -6,6 +6,8 @@
 
 O Painel Admin é um projeto desenvolvido para a cliente Silvana Uniformes. Ele foi construído com foco em administração do negócio.
 
+Você pode conferir o **BackEnd** do projeto no seguinte repositório: https://github.com/FabioSigF/admin_loja_uniformes
+
 ## :computer: Tecnologias Utilizadas
 
 Para desenvolver o Front-End do projeto, utilizei:
